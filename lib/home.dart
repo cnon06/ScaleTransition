@@ -57,6 +57,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             isOpenMenu ? BorderRadius.circular(20) : BorderRadius.circular(0),
         elevation: 20,
         child: Container(
+           height: screenHeight,
+                width: screenWidth,
           padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
           child: Column(
             children: [
@@ -84,9 +86,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-                height: screenHeight,
+                 height: 200,
                 width: screenWidth,
+                padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+               
                 child: PageView(
                   scrollDirection: Axis.horizontal,
                   children: [
