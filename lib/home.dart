@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -11,24 +10,24 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late double screenHeight, screenWidth;
   bool isOpenMenu = false;
-  // late AnimationController animationController;
-  // late Animation scaleAnimation;
+  late AnimationController animationController;
+  late Animation<double> scaleAnimation;
   Duration duration = const Duration(milliseconds: 500);
 
-  // @override
-  // void initState() {
-   
-  //   super.initState();
-  //   animationController = AnimationController(vsync: this, duration: duration);
-  //   // scaleAnimation = Tween(begin: 1, end: .5).animate(animationController);
-  // }
+  @override
+  void initState() {
+    super.initState();
+    animationController = AnimationController(vsync: this, duration: duration);
+    scaleAnimation =
+        Tween<double>(begin: 1, end: .5).animate(animationController);
+  }
 
-  // @override
-  // void dispose() {
-  //   animationController.dispose();
-    
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    animationController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +48,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     );
   }
 
-  AnimatedPositioned dashBoard() {
-    return AnimatedPositioned(
-      top: isOpenMenu ? 0.02 * screenHeight : 0,
-      bottom: isOpenMenu ? .02 * screenHeight : 0,
-      left: isOpenMenu ? .4 * screenWidth : 0,
-      right: isOpenMenu ? .02 * screenWidth : 0,
-      duration: duration,
+  ScaleTransition dashBoard() {
+    return ScaleTransition(
+      scale: scaleAnimation,
       child: Material(
         color: Colors.teal,
         borderRadius:
             isOpenMenu ? BorderRadius.circular(20) : BorderRadius.circular(0),
         elevation: 20,
         child: Container(
-          
           padding: const EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
           child: Column(
             children: [
@@ -76,7 +70,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         onTap: () {
                           setState(() {
                             isOpenMenu = !isOpenMenu;
-                           
+                            if (isOpenMenu) {
+                              animationController.forward();
+                            } else {
+                              animationController.reverse();
+                            }
                           });
                         },
                         child: const Icon(Icons.menu)),
@@ -87,7 +85,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
               Container(
                 padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-                height: 300,
+                height: screenHeight,
+                width: screenWidth,
                 child: PageView(
                   scrollDirection: Axis.horizontal,
                   children: [
